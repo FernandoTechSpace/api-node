@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --env-file=.env --watch src/index.js"
+    "dev": "node --env-file=.env --watch src/index.js",
+    "lint": "standard"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,8 @@
     "express": "^5.1.0",
     "node-pg-migrate": "^7.6.1",
     "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
   }
 }

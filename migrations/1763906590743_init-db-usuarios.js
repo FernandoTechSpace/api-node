@@ -1,18 +1,25 @@
 /**
- * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
+ * @param {import("node-pg-migrate").MigrationBuilder} pgm
  */
-exports.shorthands = undefined
+export const up = (pgm) => {
+  // criacao da tabela usuarios
+  // uso if not exists para garantir que nao de erro se ja existir
+  pgm.sql(`
+    CREATE TABLE IF NOT EXISTS usuarios (
+      id UUID PRIMARY KEY,
+      nome VARCHAR(255) NOT NULL,
+      cargo VARCHAR(255),
+      data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+};
 
 /**
- * @param pgm {import('node-pg-migrate').MigrationBuilder}
- * @param run {() => void | undefined}
- * @returns {Promise<void> | void}
+ * @param {import("node-pg-migrate").MigrationBuilder} pgm
  */
-exports.up = (pgm) => {}
-
-/**
- * @param pgm {import('node-pg-migrate').MigrationBuilder}
- * @param run {() => void | undefined}
- * @returns {Promise<void> | void}
- */
-exports.down = (pgm) => {}
+export const down = (pgm) => {
+  // se precisar desfazer a migracao, apago a tabela
+  pgm.sql(`
+    DROP TABLE IF EXISTS usuarios;
+  `);
+};

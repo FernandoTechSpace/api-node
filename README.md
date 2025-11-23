@@ -62,3 +62,5 @@ Detalhes tecnicos:
 . Segurança: Utilização de Parameterized Queries ($1, $2) para prevenção contra SQL Injection e variáveis de ambiente para proteção de credenciais.
 
 . Ambiente: O banco de dados roda isolado em container Docker (imagem postgres:15), garantindo compatibilidade e limpeza do ambiente de desenvolvimento.
+
+### Teste de pipeline

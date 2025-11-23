@@ -1,3 +1,5 @@
+![Pipeline Status](https://github.com/FernandoTechSpace/api-node/actions/workflows/ci-cd.yaml/badge.svg)
+
 # API Node.js com PostgreSQL e Docker
 
 API RESTful desenvolvida com Node.js (v25+), Express 5 e PostgreSQL, utilizando arquitetura MVC e Repository Pattern. O projeto foca em escalabilidade, segurança e separação de responsabilidades.

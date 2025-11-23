@@ -1,0 +1,38 @@
+name: Pipeline-api-node
+
+# Gatilhos de execucao
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    # Removi o filtro de paths para garantir que qualquer alteracao no codigo dispare o teste
+
+  push:
+    branches:
+      - main
+
+jobs:
+  validacao-projeto:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Baixa o repositorio
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      # 2. Prepara o ambiente Node.js (essencial para seu projeto)
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Versao LTS atual recomendada
+          
+      # 3. Instala as dependencias do package.json
+      - name: Instalar dependencias
+        run: npm install
+        
+      # 4. Validacao simples (apenas para ver se o projeto nao quebra)
+      - name: Verificar versao do node e arquivos
+        run: |
+          node -v
+          ls -R

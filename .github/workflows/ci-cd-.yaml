@@ -6,7 +6,6 @@ on:
     branches:
       - main
       - develop
-    # Removi o filtro de paths para garantir que qualquer alteracao no codigo dispare o teste
 
   push:
     branches:
@@ -36,3 +35,11 @@ jobs:
         run: |
           node -v
           ls -R
+
+      # 5. Verifica padroes de codigo (lint)
+      - name: Verificar padroes de codigo (Lint)
+        run: npm run lint
+
+      # ADICIONE A PARTIR DAQUI:
+      - name: Executar Testes Unitarios
+        run: npm test

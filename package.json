@@ -4,9 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "node --env-file=.env --watch src/index.js",
-    "lint": "standard"
+    "lint": "standard",
+    "migrate": "node --env-file=.env node_modules/node-pg-migrate/bin/node-pg-migrate up",
+    "migrate:down": "node --env-file=.env node_modules/node-pg-migrate/bin/node-pg-migrate down",
+    "migrate:create": "node-pg-migrate create"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,8 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
-    "standard": "^17.1.2"
+    "jest": "^30.2.0",
+    "standard": "^17.1.2",
+    "supertest": "^7.1.4"
   }
 }

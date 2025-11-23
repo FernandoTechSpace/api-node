@@ -1,0 +1,17 @@
+services:
+  postgres:
+    
+    # essa versao usa debian, que tem melhor compatibilidade com bibliotecas padrao
+    image: postgres:15
+    container_name: api_node_pg
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: mydatabase
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

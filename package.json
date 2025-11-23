@@ -24,6 +24,6 @@
     "standard": "^17.1.2",
     "supertest": "^7.1.4"
   },
-  "standard": "^17.1.2",
-      "env": ["jest"]
+  "standard": {
+      "env": ["jest"]}
 }

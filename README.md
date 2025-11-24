@@ -1,4 +1,4 @@
-![Pipeline Status](https://github.com/FernandoTechSpace/api-node/actions/workflows/ci-cd.yaml/badge.svg)
+[![Pipeline-api-node](https://github.com/FernandoTechSpace/api-node/actions/workflows/ci-cd-.yaml/badge.svg)](https://github.com/FernandoTechSpace/api-node/actions/workflows/ci-cd-.yaml)
 
 # API Node.js com PostgreSQL, Docker e Migrations
 

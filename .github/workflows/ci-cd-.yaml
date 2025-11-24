@@ -20,17 +20,17 @@ jobs:
       - name: Checkout do codigo
         uses: actions/checkout@v4
 
-      # 2. Prepara o ambiente Node.js (essencial para seu projeto)
+      # 2. Prepara o ambiente Node.js
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Versao LTS atual recomendada
+          node-version: '20'
           
       # 3. Instala as dependencias do package.json
       - name: Instalar dependencias
         run: npm install
         
-      # 4. Validacao simples (apenas para ver se o projeto nao quebra)
+      # 4. Valida versao do node e arquivos
       - name: Verificar versao do node e arquivos
         run: |
           node -v
@@ -40,6 +40,6 @@ jobs:
       - name: Verificar padroes de codigo (Lint)
         run: npm run lint
 
-      # ADICIONE A PARTIR DAQUI:
+      # 6. Executa os testes unitarios
       - name: Executar Testes Unitarios
         run: npm test

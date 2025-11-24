@@ -1,11 +1,11 @@
-// importo nossa conexao nova
+// importo a conexao nova
 import { query } from '../database/index.js'
 import { randomUUID } from 'node:crypto'
 
 class UserRepository {
   // buscar todos
   async findAll (options = {}) {
-    // inicio da query padrao
+    // inicia na query padrao
     let sql = 'SELECT * FROM usuarios'
     const valores = []
 

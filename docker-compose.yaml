@@ -1,7 +1,7 @@
 services:
   postgres:
     
-    # essa versao usa debian, que tem melhor compatibilidade com bibliotecas padrao
+    # cria imagem do postgres
     image: postgres:15
     container_name: api_node_pg
     ports:

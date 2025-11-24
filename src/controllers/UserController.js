@@ -8,11 +8,11 @@ class UserController {
     })
   }
 
-  // adicionei ASYNC
+  // adiciona ASYNC
   async index (requisicao, resposta) {
     const { cargo } = requisicao.query
 
-    // adicionei AWAIT: espere o banco buscar os dados
+    // adiciona AWAIT: aguarda o banco buscar os dados
     const listaUsuarios = await userRepository.findAll({ cargo })
 
     return resposta.status(200).json(listaUsuarios)
@@ -21,7 +21,7 @@ class UserController {
   async store (requisicao, resposta) {
     const { nome, cargo } = requisicao.body
 
-    // adicionei AWAIT: espere o banco salvar
+    // adiciona AWAIT: aguarda o banco salvar
     const novoUsuario = await userRepository.create({ nome, cargo })
 
     return resposta.status(201).json({
@@ -34,7 +34,7 @@ class UserController {
     const { id } = requisicao.params
     const { nome, cargo } = requisicao.body
 
-    // adicionei AWAIT: espere validar se existe
+    // adiciona AWAIT: aguarda validar se existe
     const usuarioExiste = await userRepository.findById(id)
 
     if (!usuarioExiste) {
@@ -43,7 +43,7 @@ class UserController {
       })
     }
 
-    // adicionei AWAIT: espere atualizar
+    // adiciona AWAIT: aguarda atualizar
     const usuarioAtualizado = await userRepository.update(id, { nome, cargo })
 
     return resposta.status(200).json({
@@ -63,7 +63,7 @@ class UserController {
       })
     }
 
-    // adicionei AWAIT: espere deletar
+    // adiciona AWAIT: aguarda deletar
     await userRepository.delete(id)
 
     return resposta.status(204).send()

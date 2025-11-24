@@ -2,8 +2,7 @@ import pg from 'pg'
 
 const { Pool } = pg
 
-// agora as credenciais vem do process.env
-// isso mantem as senhas seguras e fora do codigo fonte
+// credenciais vem do process.env
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,

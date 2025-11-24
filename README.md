@@ -8,7 +8,7 @@ API RESTful desenvolvida com Node.js (v25+), Express 5 e PostgreSQL, utilizando 
 
 - **Node.js v25**: Runtime JavaScript moderno (com suporte nativo a .env e watch).
 - **Express v5**: Framework web (com tratamento de erros assíncronos nativo).
-- **PostgreSQL**: Banco de dados relacional robusto.
+- **PostgreSQL**: Banco de dados relacional.
 - **Docker & Docker Compose**: Containerização do banco de dados.
 - **PG (node-postgres)**: Driver de conexão oficial e seguro (Pool de conexões).
 - **Node PG Migrate**: Controle de versão do esquema do banco de dados (Migrations).

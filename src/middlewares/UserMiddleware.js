@@ -3,19 +3,19 @@ class UserMiddleware {
   validateName (requisicao, resposta, next) {
     const { nome } = requisicao.body
 
-    // se nao tiver nome, eu retorno erro e a requisicao morre aqui
+    // se nao tiver nome, retorna erro e a requisicao termina
     if (!nome) {
       return resposta.status(400).json({
         erro: 'o campo nome e obrigatorio'
       })
     }
 
-    // se tiver nome, eu chamo o next()
+    // se tiver nome, chamo o next()
     // isso diz para o express passar para o proximo passo (o controller)
     next()
   }
 
-  // middleware para validar se o id e um uuid valido (opcional mas boa pratica)
+  // middleware para validar se o id e um uuid valido
   validateId (requisicao, resposta, next) {
     const { id } = requisicao.params
 

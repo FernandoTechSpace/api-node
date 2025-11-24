@@ -8,7 +8,6 @@ const router = express.Router()
 router.get('/', userController.status)
 router.get('/usuarios', userController.index)
 
-
 // adiciona o middleware "validateName" entre a rota e o controller
 // a ordem importa: primeiro valida, depois cria
 router.post('/usuarios', userMiddleware.validateName, userController.store)

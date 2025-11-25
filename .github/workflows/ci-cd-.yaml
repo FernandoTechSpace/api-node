@@ -16,30 +16,30 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      # 1. Baixa o repositorio
+      # Baixa o repositorio
       - name: Checkout do codigo
         uses: actions/checkout@v4
 
-      # 2. Prepara o ambiente Node.js
+      # Prepara o ambiente Node.js
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           
-      # 3. Instala as dependencias do package.json
+      # Instala as dependencias do package.json
       - name: Instalar dependencias
         run: npm install
         
-      # 4. Valida versao do node e arquivos
+      # Valida versao do node e arquivos
       - name: Verificar versao do node e arquivos
         run: |
           node -v
           ls -R
 
-      # 5. Verifica padroes de codigo (lint)
+      # Verifica padroes de codigo (lint)
       - name: Verificar padroes de codigo (Lint)
         run: npm run lint
 
-      # 6. Executa os testes unitarios
+      # Executa os testes unitarios
       - name: Executar Testes Unitarios
         run: npm test

@@ -1,20 +1,15 @@
-import express from 'express'
-// remove a importacao da lib 'express-async-errors' pois o express 5 ja faz isso nativamente
+// ─────────────────────────────────────────────
+// Ponto de entrada do servidor (server bootstrap)
+// A configuração do app está em app.js para permitir testabilidade
+// ─────────────────────────────────────────────
+import app from './app.js'
+import { validarVariaveisDeAmbiente } from './config/env.js'
 
-import router from './router.js'
-import errorHandler from './middlewares/ErrorHandler.js'
-
-const app = express()
-
-app.use(express.json())
-
-app.use(router)
-
-// o tratamento de erros continua aqui
-app.use(errorHandler)
+// Fail-fast: encerra o processo se variáveis obrigatórias estiverem ausentes
+validarVariaveisDeAmbiente()
 
 const porta = process.env.PORT || 3000
 
 app.listen(porta, () => {
-  console.log(`servidor rodando na porta ${porta}`)
+  console.log(`[INFO] Servidor rodando na porta ${porta}`)
 })

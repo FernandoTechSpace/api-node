@@ -1,12 +1,12 @@
-import { ZodError } from 'zod'
+// ErrorHandler não precisa mais importar o ZodError explícito
 
 // middleware para tratar erros globais
 function ErrorHandler(erro, requisicao, resposta, next) {
   // Tratamento de erros de validacao do Zod (Bad Request)
-  if (erro instanceof ZodError) {
+  if (erro.name === 'ZodError') {
     return resposta.status(400).json({
       status: 'erro_de_validacao',
-      erros: erro.errors.map(err => ({
+      erros: erro.issues.map(err => ({
         campo: err.path.join('.'),
         mensagem: err.message
       }))

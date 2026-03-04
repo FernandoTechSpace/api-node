@@ -1,15 +1,15 @@
 import userRepository from '../repositories/UserRepository.js'
 
 class UserController {
-  status(requisicao, resposta) {
+  status (requisicao, resposta) {
     return resposta.status(200).json({
       mensagem: 'api funcionando corretamente',
       status: 'sucesso'
     })
   }
 
-  // Listagem com suporte a paginacao
-  async index(requisicao, resposta) {
+  // Listagem com suporte a paginacao e metadados de total
+  async index (requisicao, resposta) {
     const { cargo, page = 1, limit = 10 } = requisicao.query
 
     // Converte e garante números seguros para paginação
@@ -17,24 +17,25 @@ class UserController {
     const parsedLimit = Math.max(1, Math.min(100, parseInt(limit, 10))) // limit máximo 100
     const offset = (parsedPage - 1) * parsedLimit
 
-    // Pagina os dados do banco enviando limit e offset
-    const listaUsuarios = await userRepository.findAll({
+    // O repositório retorna { dados, total } para cálculo das páginas
+    const { dados, total } = await userRepository.findAll({
       cargo,
       limit: parsedLimit,
       offset
     })
 
     return resposta.status(200).json({
-      dados: listaUsuarios,
+      dados,
       paginacao: {
         page: parsedPage,
         limit: parsedLimit,
-        total_retornado: listaUsuarios.length
+        total_registros: total,
+        total_paginas: Math.ceil(total / parsedLimit)
       }
     })
   }
 
-  async store(requisicao, resposta) {
+  async store (requisicao, resposta) {
     const { nome, cargo } = requisicao.body
 
     // adiciona AWAIT: aguarda o banco salvar
@@ -46,7 +47,7 @@ class UserController {
     })
   }
 
-  async update(requisicao, resposta) {
+  async update (requisicao, resposta) {
     const { id } = requisicao.params
     const { nome, cargo } = requisicao.body
 
@@ -68,7 +69,7 @@ class UserController {
     })
   }
 
-  async delete(requisicao, resposta) {
+  async delete (requisicao, resposta) {
     const { id } = requisicao.params
 
     const usuarioExiste = await userRepository.findById(id)

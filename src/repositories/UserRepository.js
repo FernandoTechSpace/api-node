@@ -3,27 +3,36 @@ import { query } from '../database/index.js'
 import { randomUUID } from 'node:crypto'
 
 class UserRepository {
-  // buscar todos
-  async findAll (options = {}) {
-    // inicia na query padrao
+  // buscar todos com paginação
+  async findAll(options = {}) {
     let sql = 'SELECT * FROM usuarios'
     const valores = []
+    let parametroAtual = 1
 
     // se tiver filtro de cargo, adiciono a condicao WHERE
     if (options.cargo) {
-      sql += ' WHERE cargo = $1'
+      sql += ` WHERE cargo = $${parametroAtual}`
       valores.push(options.cargo)
+      parametroAtual++
     }
 
-    // mando pro banco
+    // Ordenacao previsivel para evitar inconsistencia nas paginas
+    sql += ' ORDER BY id'
+
+    // Aplicacao de LIMIT e OFFSET seguros prevendo que vao ser mandados
+    const limit = options.limit || 10
+    const offset = options.offset || 0
+
+    sql += ` LIMIT $${parametroAtual} OFFSET $${parametroAtual + 1}`
+    valores.push(limit, offset)
+
     const resultado = await query(sql, valores)
 
-    // o postgres devolve os dados dentro de .rows
     return resultado.rows
   }
 
   // buscar por id
-  async findById (id) {
+  async findById(id) {
     const sql = 'SELECT * FROM usuarios WHERE id = $1'
     const resultado = await query(sql, [id])
 
@@ -32,7 +41,7 @@ class UserRepository {
   }
 
   // criar
-  async create ({ nome, cargo }) {
+  async create({ nome, cargo }) {
     const id = randomUUID()
 
     // RETURNING * faz o postgres devolver o dado criado na mesma hora
@@ -50,7 +59,7 @@ class UserRepository {
   }
 
   // atualizar
-  async update (id, { nome, cargo }) {
+  async update(id, { nome, cargo }) {
     const sql = `
             UPDATE usuarios
             SET nome = $1, cargo = $2
@@ -66,7 +75,7 @@ class UserRepository {
   }
 
   // deletar
-  async delete (id) {
+  async delete(id) {
     const sql = 'DELETE FROM usuarios WHERE id = $1'
 
     await query(sql, [id])

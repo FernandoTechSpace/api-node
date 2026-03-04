@@ -14,32 +14,59 @@ on:
 jobs:
   validacao-projeto:
     runs-on: ubuntu-latest
-    
+
+    # ─────────────────────────────────────────────
+    # Serviço de banco de dados para os testes de integração
+    # O container sobe junto com o job e é descartado ao final
+    # ─────────────────────────────────────────────
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: mydatabase
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    # Variáveis de ambiente injetadas nos steps de teste e migração
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: mydatabase
+      PORT: 3000
+
     steps:
       # Baixa o repositorio
       - name: Checkout do codigo
         uses: actions/checkout@v4
 
-      # Prepara o ambiente Node.js
+      # Prepara o ambiente Node.js (alinhado com a versão usada em desenvolvimento)
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          
+          node-version: '22'
+          cache: 'npm'
+
       # Instala as dependencias do package.json
       - name: Instalar dependencias
-        run: npm install
-        
-      # Valida versao do node e arquivos
-      - name: Verificar versao do node e arquivos
-        run: |
-          node -v
-          ls -R
+        run: npm ci
 
       # Verifica padroes de codigo (lint)
       - name: Verificar padroes de codigo (Lint)
         run: npm run lint
 
-      # Executa os testes unitarios
-      - name: Executar Testes Unitarios
+      # Aplica as migrations antes de rodar os testes
+      - name: Executar Migrations
+        run: npm run migrate
+
+      # Executa os testes de integração com banco real
+      - name: Executar Testes
         run: npm test

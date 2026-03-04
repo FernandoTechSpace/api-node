@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "node --env-file=.env --experimental-vm-modules node_modules/.bin/jest --forceExit",
     "dev": "node --env-file=.env --watch src/index.js",
     "lint": "standard",
     "migrate": "node --env-file=.env node_modules/node-pg-migrate/bin/node-pg-migrate up",
@@ -15,9 +15,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "node-pg-migrate": "^7.6.1",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "jest": "^30.2.0",
@@ -25,5 +29,11 @@
     "supertest": "^7.1.4"
   },
   "standard": {
-      "env": ["jest"]}
+    "env": [
+      "jest"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
 }

@@ -8,14 +8,31 @@ class UserController {
     })
   }
 
-  // adiciona ASYNC
+  // Listagem com suporte a paginacao e metadados de total
   async index (requisicao, resposta) {
-    const { cargo } = requisicao.query
+    const { cargo, page = 1, limit = 10 } = requisicao.query
 
-    // adiciona AWAIT: aguarda o banco buscar os dados
-    const listaUsuarios = await userRepository.findAll({ cargo })
+    // Converte e garante números seguros para paginação
+    const parsedPage = Math.max(1, parseInt(page, 10))
+    const parsedLimit = Math.max(1, Math.min(100, parseInt(limit, 10))) // limit máximo 100
+    const offset = (parsedPage - 1) * parsedLimit
 
-    return resposta.status(200).json(listaUsuarios)
+    // O repositório retorna { dados, total } para cálculo das páginas
+    const { dados, total } = await userRepository.findAll({
+      cargo,
+      limit: parsedLimit,
+      offset
+    })
+
+    return resposta.status(200).json({
+      dados,
+      paginacao: {
+        page: parsedPage,
+        limit: parsedLimit,
+        total_registros: total,
+        total_paginas: Math.ceil(total / parsedLimit)
+      }
+    })
   }
 
   async store (requisicao, resposta) {

@@ -8,12 +8,12 @@ const router = express.Router()
 router.get('/', userController.status)
 router.get('/usuarios', userController.index)
 
-// adiciona o middleware "validateName" entre a rota e o controller
+// adiciona o middleware de validacao de payload
 // a ordem importa: primeiro valida, depois cria
-router.post('/usuarios', userMiddleware.validateName, userController.store)
+router.post('/usuarios', userMiddleware.validatePayload, userController.store)
 
-// valida o nome e id antes de atualizar
-router.put('/usuarios/:id', userMiddleware.validateId, userMiddleware.validateName, userController.update)
+// valida o id e o payload da atualizacao
+router.put('/usuarios/:id', userMiddleware.validateId, userMiddleware.validatePayload, userController.update)
 
 // no delete valida apenas o id
 router.delete('/usuarios/:id', userMiddleware.validateId, userController.delete)
